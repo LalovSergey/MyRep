@@ -1,0 +1,116 @@
+package gui_game;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
+
+public class MainGame {
+
+    public static void main(String[] args) {
+
+
+
+
+
+        int counter=0;
+        // блок создания фрейма игрового поля
+        JFrame frame = new JFrame("FLIP FLOP");
+        frame.setBounds(600, 100, 315, 600);
+        frame.setLayout(null);
+        frame.setVisible(true);
+        // блок создания контейнера на фрейме
+        Container cont = new Container();
+        frame.add(cont);
+        cont.setBounds(25, 25, 250, 250);
+        cont.setLayout(null);
+        cont.setVisible(true);
+        // ДЛЯ ГЕНЕРАЦИИ СЛУЧАЙНЫХ ЗНАЧЕНИЙ ТЕКСТА КНОПКИ: "==" ИЛИ "||"
+        Random rndValue = new Random();
+
+        JLabel lbl = new JLabel("ДОБРО ПОЖАЛОВАТЬ В ИГРУ! ПОБЕДИТЕ СИСТЕМУ.");
+        frame.add(lbl);
+        lbl.setFont(new Font("Arial", Font.CENTER_BASELINE, 8));
+        lbl.setBounds(35,350,300,50);
+        lbl.setVisible(true);
+
+        // счетчик ходов
+
+        JLabel lbl1 = new JLabel("СДЕЛАННЫХ ХОДОВ: "+counter);
+        frame.add(lbl1);
+        lbl1.setFont(new Font("Arial", Font.CENTER_BASELINE, 8));
+        lbl1.setBounds(35,410,300,50);
+        lbl1.setVisible(true);
+
+//СОЗДАЕМ МАССИВ КНОПОК 5X5 C РАНДОМНЫМ РАЗМЕЩЕНИЕМ ЗНАЧКОВ "==" и "||"
+        int FieldSize = 5;
+JButton [][] btns = new JButton[FieldSize][FieldSize];
+//ЗАПИСЬ КНОПОК В МАССИВ И ОТРИСОВКА НА ФРЕЙМЕ В КОНТЕЙНЕРЕ
+        int posX=0;
+        int posY=0;
+        for (int i=0;i<btns.length;i++){
+            for (int j=0;j<btns.length;j++){
+                btns[i][j]= new JButton(i+""+j);
+                // РАНДОМНАЯ ГЕНЕРАЦИЯ ЗНАЧКА КНОПКИ
+                  if (rndValue.nextInt(2)==0){
+                      btns[i][j].setText("==");
+                  } else {
+                      btns[i][j].setText("||");
+                  }
+                  cont.add(btns[i][j]);
+                btns[i][j].setMargin(new Insets(0, 0, 0, 0));
+                btns[i][j].setFont(new Font("Arial", Font.CENTER_BASELINE, 10));
+                btns[i][j].setBounds(posX,posY,50,50);
+
+// Присвоение лисенера на нажатие кнопок контейнера внутри цикла
+                int finalI = i;
+                int finalJ = j;
+                btns[i][j].addActionListener(e -> {
+
+
+                   String oVal= btns[finalI][finalJ].getText();
+                   if (oVal.equals("==")){
+
+
+                       for (int x=0;x< btns.length;x++){
+                           for (int y=0;y< btns.length;y++){
+                               btns[finalI][y].setText("==");
+
+                           }
+                       }
+                       for (int x=0;x< btns.length;x++) {
+                           for (int y = 0; y < btns.length; y++) {
+                               btns[x][finalJ].setText("==");
+                           }
+                       }
+                    }
+
+
+                   else {
+                       for (int x=0;x< btns.length;x++){
+                           for (int y=0;y< btns.length;y++){
+                               btns[finalI][y].setText("||");
+                           }
+                       }
+                       for (int x=0;x< btns.length;x++) {
+                           for (int y = 0; y < btns.length; y++) {
+                               btns[x][finalJ].setText("||");
+                           }
+                       }
+                   }
+
+                });
+                    posX=posX+50;
+                //реализация шага на фрейме
+              if(posX>=250){
+                    posX=0;
+                    posY=posY+50;
+                }
+            }
+        }
+
+
+    }
+
+    }
